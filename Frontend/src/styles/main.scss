@@ -1,0 +1,24 @@
+@import "./colors";
+
+
+.btn {
+    background-color: $primary;
+    color: #000;
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+        background-color: darken($primary, 10%);
+    }
+    border: none;
+}
+
+
+.btn-container{
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
