@@ -3,23 +3,25 @@ import { BudgetEntry } from "../model/BudgetEntry";
 import ApiError from "../utils/ApiError";
 
 
-
+//Function to get all budgets by user id
 const getBudgetsByUserId = async (id:Types.ObjectId) => {
+    //Return all budgets by user id
     return await BudgetEntry.find({user:id}).sort({date : 'asc'});
 }
 
+//Function to add a budget entry
 const addBudgetEntry = async (name:string, price:number, userId:Types.ObjectId , date : string) => {
     try {
-
+        //Create a new budget entry
         const budgetEntry = new BudgetEntry({
             name,
             price,
             date, 
             user : userId
         });
-        
+        //Save the budget entry
         return await budgetEntry.save();
-    } catch (error) {
+    } catch (error) { // Catch any errors and throw an ApiError
         console.log(error);
         throw new ApiError(500, error.message);
     
@@ -28,10 +30,12 @@ const addBudgetEntry = async (name:string, price:number, userId:Types.ObjectId ,
 }
 
 
-const getBudgetsByDate = async (date:string) => {
+//Function to get all budgets by date
+const getBudgetsByDate = async (date:string) => { 
     try {
+        //Return all budgets by date
         return await BudgetEntry.find({date :  date} ).sort({date : 'asc'});
-    } catch (error) {
+    } catch (error) { // Catch any errors and throw an ApiError
         console.log(error);
         throw new ApiError(500,error.message);
     }
@@ -39,7 +43,7 @@ const getBudgetsByDate = async (date:string) => {
 
 
 const getBudgetForLastMonth = async (userId: Types.ObjectId , months:number = 1 ) => {
-
+    // Get the budgets for the last month
     try {
         // Get the current date
         const currentDate = new Date();
@@ -60,6 +64,7 @@ const getBudgetForLastMonth = async (userId: Types.ObjectId , months:number = 1 
     }
 }
 
+//Function to delete a budget entry
 const deleteBudgetEntry = async (id:Types.ObjectId,userId : Types.ObjectId) => {
   try {
     const budgetEntry = await BudgetEntry.findById(id);

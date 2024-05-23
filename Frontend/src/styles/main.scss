@@ -1,5 +1,5 @@
 @import "./colors";
-
+@import "./mixin";
 
 .btn {
     background-color: $primary;
@@ -21,4 +21,9 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+
+.flex-center {
+    @include flexBox("row","center", "center");
 }

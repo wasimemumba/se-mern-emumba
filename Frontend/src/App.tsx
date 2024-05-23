@@ -8,16 +8,18 @@ import HomePage from "./pages/home";
 import { useEffect } from "react";
 import { RootState } from "./store";
 import { useSelector } from "react-redux";
-
+import { useLocation } from "react-router-dom";
 function App() {
   const { user } = useSelector((state: RootState) => state.userState);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      if (location.pathname !== "/login" && location.pathname !== "/signup")
+        navigate("/login");
     }
-  }, [navigate, user]);
+  }, [navigate, user, location.pathname]);
 
   return (
     <div className="App">

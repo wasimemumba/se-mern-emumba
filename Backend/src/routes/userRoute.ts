@@ -15,9 +15,9 @@ const router = express.Router();
 router
   .route("/")
   .get(isAuthenticated, getUsers)
-  .post(validate(createUserSchema), createUser);
+  .post(validate(createUserSchema), createUser); //register user 
 router
   .route("/:id")
-  .get(validate(getUserByIdSchema), getUserById)
+  .get(validate(getUserByIdSchema), getUserById) // get user by id
 
 export default router;

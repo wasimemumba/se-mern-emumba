@@ -7,9 +7,9 @@ const router = express.Router();
 
 router
   .route("/")
-  .post(validate(logInSchema),login)
-  .delete(validate(refreshTokenSchema), logout);
+  .post(validate(logInSchema),login) // login user 
+  .delete(validate(refreshTokenSchema), logout); // logout user
 
-router.route("/refresh").post(validate(refreshTokenSchema), refreshToken);
+router.route("/refresh").post(validate(refreshTokenSchema), refreshToken); // get new access token by sending a refresh token 
 
 export default router;

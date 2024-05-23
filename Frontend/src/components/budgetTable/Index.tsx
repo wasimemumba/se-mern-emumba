@@ -50,6 +50,11 @@ const BudgetTable: React.FC = () => {
 
   // Function to handle delete action
   const handleDelete = async (id: string) => {
+    //asl user for confirmation
+    if (!window.confirm("Are you sure you want to delete this budget?")) {
+      return;
+    }
+
     const budget = budgets.find((budget) => budget._id === id);
     try {
       // Dispatch action to remove budget from Redux store

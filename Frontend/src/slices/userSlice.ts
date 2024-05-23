@@ -27,6 +27,11 @@ export const userSlice = createSlice({
         state.user = null;
         state.error = '';
         state.loading = false;
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        updateAuthToken();
+        
     }
   },
   extraReducers(builder) {

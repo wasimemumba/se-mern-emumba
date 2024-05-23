@@ -21,8 +21,7 @@ app.use(express.json());
 app.use(router);
 
 app.get("/", (req, res,next) => {
-
-  next({})
+  res.send("Server is ready");
 })
 
 //handle unknow routes

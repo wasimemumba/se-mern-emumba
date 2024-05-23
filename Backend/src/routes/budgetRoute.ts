@@ -8,10 +8,12 @@ import { addBudgetEntrySchema } from '../schema/budgetEntryValidation';
 const router = express.Router();
 
 
-router.route('/').get(isAuthenticated,getUserBudgets).post(isAuthenticated ,validate(addBudgetEntrySchema),addBudgetEntry);
-router.route("/date").get(isAuthenticated,getBudgetForLastMonth);
-router.route("/:id").delete(isAuthenticated,deleteBudgetEntry);
-router.route("/:date").get(isAuthenticated,getBudgetsByDate);
+router.route('/')
+.get(isAuthenticated,getUserBudgets) // get all budgets of a user should be logged in
+.post(isAuthenticated ,validate(addBudgetEntrySchema),addBudgetEntry); // add a budget entry should be logged in and validate the request body
+router.route("/date").get(isAuthenticated,getBudgetForLastMonth); // get all budgets for the last/last 6 / last 12 month should be logged in
+router.route("/:id").delete(isAuthenticated,deleteBudgetEntry); // delete a budget entry should be logged in
+router.route("/:date").get(isAuthenticated,getBudgetsByDate); // get all budgets by date should be logged in
 
 
 

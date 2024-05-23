@@ -5,16 +5,17 @@ import jwt from "jsonwebtoken";
 import UserToken from "../model/UserToken";
 
 
-
+//Function to get a new access token using a refresh token
 export const getRefreshToken = async (refreshToken : string ) => {
+  //Verify the refresh token
     const result = await verifyRefreshToken(refreshToken);
   
     const { tokenDetails, message, error } = result;
   
-    if (error) {
+    if (error) { // If there is an error throw an error
         throw new ApiError(httpStatus.UNAUTHORIZED,message);
     }
-    if (tokenDetails) {
+    if (tokenDetails) { // If the token is verified successfully generate a new access token
       const payload = { _id: tokenDetails._id, roles: tokenDetails.roles };
       const accessToken = jwt.sign(
         payload,
@@ -23,7 +24,8 @@ export const getRefreshToken = async (refreshToken : string ) => {
       );
         return accessToken;
     }
-  
+    
+    //If there is an error throw an error
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,"Internal Server Error");
   };
   

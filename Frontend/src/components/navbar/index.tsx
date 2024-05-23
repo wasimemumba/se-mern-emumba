@@ -12,15 +12,18 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { useSelector } from "react-redux"; // Importing useSelector hook from react-redux
-import { RootState } from "../../store"; // Importing RootState from Redux store
+import { useDispatch, useSelector } from "react-redux"; // Importing useSelector hook from react-redux
+import { AppDispatch, RootState } from "../../store"; // Importing RootState from Redux store
 import { useNavigate } from "react-router-dom"; // Importing useNavigate hook from react-router-dom
+import { removeUser } from "../../slices/userSlice";
 
 const pages = [""]; // List of pages
-const settings = ["Profile", "Logout"]; // List of settings
+const settings = ["Logout"]; // List of settings
 
 // Functional component for Navbar
 const Navbar: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
+
   // State variables for menu anchors
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -49,18 +52,16 @@ const Navbar: React.FC = () => {
     setAnchorElUser(null);
   };
 
+  const handleLogout = () => {
+    setAnchorElUser(null);
+    dispatch(removeUser());
+  };
+
   // Accessing navigation object using useNavigate hook
   const navigate = useNavigate();
 
   // Accessing user state from Redux store
-  const { error, loading, user } = useSelector(
-    (state: RootState) => state.userState
-  );
-
-  // Handling error and loading states
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  const { loading, user } = useSelector((state: RootState) => state.userState);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -191,7 +192,7 @@ const Navbar: React.FC = () => {
               >
                 {/* Render user settings */}
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem key={setting} onClick={handleLogout}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}

@@ -16,6 +16,7 @@ const SimpleLineChart: React.FC = () => {
   // Fetch data based on selected time period using useEffect hook
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       let url = "/budget/date";
       if (selected === "last6") {
         url = "/budget/date?months=6";
@@ -24,7 +25,6 @@ const SimpleLineChart: React.FC = () => {
       }
 
       try {
-        setLoading(true);
         const response = await ax.get(url); // Fetch data from the API
         console.log(response.data);
         // Extract budget prices and dates from the response
@@ -49,7 +49,7 @@ const SimpleLineChart: React.FC = () => {
   // Render the chart component
   return (
     <div className="container">
-      <h1>Budget Analysis</h1>
+      <h1 className="heading">Budget Analysis</h1>
       {/* Buttons to select time period */}
       <div className="button-container">
         {/* Button for last month */}
@@ -74,17 +74,29 @@ const SimpleLineChart: React.FC = () => {
           LAST 12 MONTH
         </h3>
       </div>
+      <div className="trends-container">
+        <h4>Budget Trends</h4>
+      </div>
       {/* Show loading spinner while data is being fetched */}
       {loading ? (
-        <CircularProgress />
+        <div className="chart-container">
+          <CircularProgress
+            sx={{
+              width: 800,
+              height: 400,
+            }}
+          />
+        </div>
       ) : (
-        // Render line chart with fetched data
-        <LineChart
-          width={800}
-          height={400}
-          series={[{ data: uData, label: "Budget" }]}
-          xAxis={[{ scaleType: "point", data: xLabels }]}
-        />
+        <div className="chart-container">
+          {/* // Render line chart with fetched data */}
+          <LineChart
+            width={800}
+            height={400}
+            series={[{ data: uData, label: "Budget" }]}
+            xAxis={[{ scaleType: "point", data: xLabels }]}
+          />
+        </div>
       )}
     </div>
   );
