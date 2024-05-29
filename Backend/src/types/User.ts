@@ -12,7 +12,7 @@ interface User {
 
 export interface RequestUser {
     roles : string;
-    _id : Types.ObjectId;
+    _id : any;
 }
 
 export default User;

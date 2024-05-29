@@ -4,9 +4,23 @@ import { errorHandler, notFound } from "./middleware/errormiddleware";
 import connectDB from "./config/db";
 import cors from "cors";
 import router from "./routes";
-
+import routerV2 from "./v2/routes";
+import sequelize from "./config/Sequelize";
+import { User } from "./v2/model/User";
+import { UserToken } from "./v2/model/UserToken";
+import { BudgetEntry } from "./v2/model/BudgetEntry";
 dotenv.config();
+
 connectDB();
+sequelize.authenticate()
+  .then(() => console.log('Database connected.'))
+  .catch(err => console.error('Unable to connect to the database:', err));
+
+(async () => {
+  await User.sync({ force: true });
+  await UserToken.sync({ force: true });
+  await BudgetEntry.sync({ force: true });
+})();
 
 const app = express();
 app.use(cors());
@@ -19,6 +33,7 @@ app.use(express.json());
 
 //routes
 app.use(router);
+app.use("/v2", routerV2);
 
 app.get("/", (req, res,next) => {
   res.send("Server is ready");

@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import UserToken from "../model/UserToken";
-import User from "../types/User";
+
 
 //generate tokens 
 const generateTokens = async (user) => {
   try {
     //Payload for the access token and refresh token
-    const payload = { _id: user._id, roles: user.roles };
+    const payload = { _id: user.id, roles: user.roles };
     const accessToken = jwt.sign(
       payload,
       process.env.ACCESS_TOKEN_PRIVATE_KEY,
