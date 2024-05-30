@@ -5,10 +5,10 @@ import { User } from "../model/User";
 import { UserToken } from "../model/UserToken";
 const connectDB = async () => {
     const AppDataSource = new DataSource({
-        type: "postgres",
+        type: "mysql",
         host: "localhost",
-        port: 5432,
-        username: "postgres",
+        port: 3306,
+        username: "root",
         password: "1234",
         database: "TestTypeOrm",
         entities: [BudgetEntry, User, UserToken],
