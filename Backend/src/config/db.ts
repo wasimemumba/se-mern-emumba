@@ -1,4 +1,3 @@
-// import mongoose from 'mongoose';
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import { BudgetEntry } from "../model/BudgetEntry";
