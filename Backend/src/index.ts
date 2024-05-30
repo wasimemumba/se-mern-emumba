@@ -9,6 +9,7 @@ import sequelize from "./config/Sequelize";
 import { User } from "./v2/model/User";
 import { UserToken } from "./v2/model/UserToken";
 import { BudgetEntry } from "./v2/model/BudgetEntry";
+import "reflect-metadata";
 dotenv.config();
 
 connectDB();

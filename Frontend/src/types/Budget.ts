@@ -1,5 +1,5 @@
 interface Budget {
-    _id: string;
+    id: string;
     name: string;
     price: number;
     user: string;

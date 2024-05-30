@@ -1,8 +1,6 @@
 import { Model, DataTypes, Optional } from 'sequelize';
 import sequelize from '../../config/Sequelize';
 
-
-
 // These interfaces are for TypeScript typings for the model attributes and instance
 interface BudgetEntryAttributes {
   id?: number;
@@ -20,8 +18,6 @@ export class BudgetEntry extends Model<BudgetEntryAttributes, BudgetEntryCreatio
   public price!: number;
   public userId!: number;
   public date!: string;
-
-  // timestamps!
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

@@ -62,7 +62,7 @@ export const deleteBudgetEntry = async (req: Request, res: Response, next: NextF
         if(! mongoose.Types.ObjectId.isValid(id)){ // check if the id is a valid mongoose id
             throw new ApiError(400,"Invalid id"); // if not throw an error
         }
-        const deletedBudgetEntry = await budgetServices.deleteBudgetEntry(id as unknown as mongoose.Types.ObjectId , req.user._id); // call the deleteBudgetEntry function from budgetServices
+        const deletedBudgetEntry = await budgetServices.deleteBudgetEntry(id as unknown as number , req.user._id); // call the deleteBudgetEntry function from budgetServices
         res.status(200).json(deletedBudgetEntry); // send the response as the deleted budget entry
     } catch (error) {   // catch any errors and pass them to the error handling middleware
         console.log(error);

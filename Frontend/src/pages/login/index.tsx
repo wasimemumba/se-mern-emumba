@@ -39,7 +39,7 @@ export default function SignInSide() {
   };
 
   React.useEffect(() => {
-    if (user?._id) {
+    if (user?.id) {
       navigate("/");
     }
 
@@ -47,7 +47,7 @@ export default function SignInSide() {
       toast.error(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, user?._id, user, navigate]);
+  }, [dispatch, user?.id, user, navigate]);
 
   if (loading) return <Loading />;
 

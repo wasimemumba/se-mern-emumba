@@ -33,7 +33,7 @@ export default function SignUp() {
 
     try {
       setLoading(true);
-      const response = await ax.post("/", {
+      const response = await ax.post("/user", {
         email: data.get("email"),
         password: data.get("password"),
         name: data.get("name"),

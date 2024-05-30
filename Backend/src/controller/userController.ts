@@ -38,7 +38,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Call service function to get user by ID
-    const user = await userServices.getUserById(req.params.id);
+    const user = await userServices.getUserById(parseInt(req.params.id));
 
     // If user is not found, throw a 404 error
     if (!user) {

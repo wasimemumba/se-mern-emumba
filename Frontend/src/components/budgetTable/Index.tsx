@@ -55,7 +55,7 @@ const BudgetTable: React.FC = () => {
       return;
     }
 
-    const budget = budgets.find((budget) => budget._id === id);
+    const budget = budgets.find((budget) => budget.id === id);
     try {
       // Dispatch action to remove budget from Redux store
       dispatch(removeBudget(id));
@@ -86,7 +86,7 @@ const BudgetTable: React.FC = () => {
       <DataGrid
         sx={{ backgroundColor: "white", color: "black" }}
         rows={budgets.map((budget) => ({
-          id: budget._id,
+          id: budget.id,
           name: budget.name,
           price: budget.price,
           date: formatFrontDate(budget?.date || ""),

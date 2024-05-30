@@ -2,8 +2,7 @@ import httpStatus from "http-status";
 import ApiError from "../utils/ApiError";
 import verifyRefreshToken from "../utils/verifyRefreshToken";
 import jwt from "jsonwebtoken";
-import UserToken from "../model/UserToken";
-
+import {UserToken} from "../model/UserToken";
 
 //Function to get a new access token using a refresh token
 export const getRefreshToken = async (refreshToken : string ) => {
@@ -32,10 +31,10 @@ export const getRefreshToken = async (refreshToken : string ) => {
 
   const loggedOut = async (refreshToken : string) : Promise<boolean> => {
     try {
-        const userToken = await UserToken.findOne({ token: refreshToken});
+        const userToken = await UserToken.findOne({where:{token:refreshToken}});
         if (!userToken)
           return true;
-        await UserToken.findByIdAndDelete(userToken._id);
+        await UserToken.remove(userToken);
         return true;
       } catch (err) {
         console.log(err);

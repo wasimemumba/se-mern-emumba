@@ -1,6 +1,6 @@
 export interface User {
     name: string;
-    _id : string;
+    id : string;
     email: string;
     budgetLimit : number;
     createdAt : string;

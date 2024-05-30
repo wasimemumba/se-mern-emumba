@@ -6,7 +6,10 @@ import httpStatus from "http-status"; // Importing HTTP status codes
 // Function to log in a user with email and password
 const loginUserWithEmailAndPassword = async (email: string, password: string) => {
     // Find user by email
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({
+        where: { email: email },
+        select: ["id", "name", "email", "password", "budgetLimit"]
+    });
     
     // If user does not exist, throw unauthorized error
     if (!user) {
@@ -29,8 +32,8 @@ const loginUserWithEmailAndPassword = async (email: string, password: string) =>
 const createNewUser = async (name: string, email: string, password: string, budgetLimit: number) => {
     try {
         // Create a new user with provided data
-        const user = await User.create({ name, email, password, budgetLimit });
-        
+        const user =  User.create({ name, email, password, budgetLimit });
+        await user.save();
         // Hide password field from the returned user object
         user.password = undefined;
         
@@ -39,7 +42,7 @@ const createNewUser = async (name: string, email: string, password: string, budg
     } catch (err) {
         console.log(err);
         // If the error is due to duplicate email, throw bad request error
-        if (err.code === 11000) {
+        if (err.code === "23505") {
             throw new ApiError(httpStatus.BAD_REQUEST, "User with this email already exists");
         }
         // For any other error, throw internal server error
@@ -48,9 +51,9 @@ const createNewUser = async (name: string, email: string, password: string, budg
 }
 
 // Function to get a user by ID
-const getUserById = async (id: string) => {
+const getUserById = async (id: number) => {
     // Find user by ID
-    return await User.findById(id);
+    return await User.findOne({where: {id: id}});
 }
 
 // Object containing user services functions

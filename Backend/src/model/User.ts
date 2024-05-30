@@ -1,37 +1,36 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, CreateDateColumn, UpdateDateColumn, OneToMany, BaseEntity } from 'typeorm';
+import bcrypt from 'bcrypt';
+import { BudgetEntry } from './BudgetEntry';
 
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    budgetLimit : {
-      type: Number,
-      required: true,
-    },
-  },
-  { timestamps: true }
-);
+@Entity()
+export class User extends BaseEntity {
+    @PrimaryGeneratedColumn()
+    id: number;
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
-  }
-  const salt = await bcrypt.genSalt(Number(process.env.SALT));
-  const hashPassword = await bcrypt.hash(this.password, salt);
-  this.password = hashPassword;
-  next();
-});
+    @Column({ type: "varchar", length: 255, nullable: false })
+    name: string;
 
-export const User = mongoose.model("User", userSchema);
+    @Column({ type: "varchar", length: 255, nullable: false, unique: true })
+    email: string;
+
+    @Column({ type: "varchar", nullable: false , select: false})
+    password: string;
+
+    @Column({ type: "float", nullable: false })
+    budgetLimit: number;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @OneToMany(() => BudgetEntry, budgetEntry => budgetEntry.user)
+    budgetEntries: BudgetEntry[];
+
+    @BeforeInsert()
+    async hashPassword() {
+        const salt = await bcrypt.genSalt(Number(process.env.SALT || 10));  // Default to 10 if SALT is not defined
+        this.password = await bcrypt.hash(this.password, salt);
+    }
+}
